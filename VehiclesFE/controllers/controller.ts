@@ -38,6 +38,8 @@ function submitWheels(){
     
         let wheelsInputs: any = document.getElementById("wheelsInputs");
         let newCarInfo: any = document.getElementById("carInfo");
+        let successText: any = document.getElementById("mainTitle");
+        successText.innerHTML = "New Car Successfully Created";
         displayContent(newCarInfo, wheelsInputs);
         showCarInfo(car.plate, car.brand, car.color);
         showWheels();
@@ -56,7 +58,7 @@ function validateWheels() {
             error(document.getElementById("wheelError"));
         } else if ((diameterWheel.value < 0.4) || (diameterWheel.value > 2)) {
             errorField(errorTxt, diameterWheel);
-            errorTxt.innerHTML = "Wheel " + (i+1) + " diameter must be between 0.4 and 2.";
+            errorTxt.innerHTML = `Wheel ${i+1} diameter must be between 0.4 and 2.`;
         } else {
             resetErrorField(errorTxt, diameterWheel);
             wheelCounter = wheelCounter + 1;

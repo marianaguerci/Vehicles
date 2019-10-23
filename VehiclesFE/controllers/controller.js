@@ -5,22 +5,22 @@ function createCar(plate, color, brand) {
     car = new Car(plate, color, brand);
 }
 function submitCar() {
-    let carPlate = document.getElementById("plate").value;
-    let carBrand = document.getElementById("brand").value;
-    let carColor = document.getElementById("color").value;
-    let platePattern = /\b[0-9]{4}[A-Za-z]{3}\b/;
-    
+    var carPlate = document.getElementById("plate").value;
+    var carBrand = document.getElementById("brand").value;
+    var carColor = document.getElementById("color").value;
+    var platePattern = /\b[0-9]{4}[A-Za-z]{3}\b/;
+    ///\b\d{4}[a-zA-Z]{3}\b/;
     if (carPlate == "" || carBrand == "" || carColor == "") {
         error(document.getElementById("carError"));
     }
     else if (carPlate != "" && !(carPlate.match(platePattern))) {
-        let carPlateField = document.getElementById("plate");
-        let plateErrorTxt = document.getElementById("plateError");
+        var carPlateField = document.getElementById("plate");
+        var plateErrorTxt = document.getElementById("plateError");
         errorField(plateErrorTxt, carPlateField);
     }
     else {
-        let carInputs = document.getElementById("carInputs");
-        let wheelsInputs = document.getElementById("wheelsInputs");
+        var carInputs = document.getElementById("carInputs");
+        var wheelsInputs = document.getElementById("wheelsInputs");
         displayContent(wheelsInputs, carInputs);
         createCar(carPlate, carColor, carBrand);
     }
@@ -28,29 +28,26 @@ function submitCar() {
 // ADD WHEELS
 function submitWheels() {
     if (validateWheels() == true) {
-        for (let i = 0; i < 4; i++) {
-            let brandWheel = document.getElementById("brandWheel" + i);
-            let diameterWheel = document.getElementById("diameterWheel" + i);
+        for (var i = 0; i < 4; i++) {
+            var brandWheel = document.getElementById("brandWheel" + i);
+            var diameterWheel = document.getElementById("diameterWheel" + i);
             car.addWheel(new Wheel(diameterWheel.value, brandWheel.value));
         }
-        let wheelsInputs = document.getElementById("wheelsInputs");
-        let newCarInfo = document.getElementById("carInfo");
-        let successText = document.getElementById("mainTitle");
+        var wheelsInputs = document.getElementById("wheelsInputs");
+        var newCarInfo = document.getElementById("carInfo");
+        var successText = document.getElementById("mainTitle");
         successText.innerHTML = "New Car Successfully Created";
-
         displayContent(newCarInfo, wheelsInputs);
         showCarInfo(car.plate, car.brand, car.color);
         showWheels();
-        
     }
 } //end submitWheels()
-
 function validateWheels() {
-    let wheelCounter = 0;
-    for (let i = 0; i < 4; i++) {
-        let brandWheel = document.getElementById("brandWheel" + i);
-        let diameterWheel = document.getElementById("diameterWheel" + i);
-        let errorTxt = document.getElementById("wheelErrorField" + i);
+    var wheelCounter = 0;
+    for (var i = 0; i < 4; i++) {
+        var brandWheel = document.getElementById("brandWheel" + i);
+        var diameterWheel = document.getElementById("diameterWheel" + i);
+        var errorTxt = document.getElementById("wheelErrorField" + i);
         if ((brandWheel.value == "") || (diameterWheel.value == "")) {
             error(document.getElementById("wheelError"));
         }
@@ -70,20 +67,19 @@ function validateWheels() {
         return false;
     }
 } //end validateWheels()
-
 // muestra la info del coche una vez creado
 function showCarInfo(plate, brand, color) {
-    let newCarPlate = document.getElementById("newCarPlate");
+    var newCarPlate = document.getElementById("newCarPlate");
     newCarPlate.innerHTML = "Plate: " + plate;
-    let newCarBrand = document.getElementById("newCarBrand");
+    var newCarBrand = document.getElementById("newCarBrand");
     newCarBrand.innerHTML = "Brand: " + brand;
-    let newCarColor = document.getElementById("newCarColor");
+    var newCarColor = document.getElementById("newCarColor");
     newCarColor.innerHTML = "Color: " + color;
 }
 // muestra la info de las ruedas 
 function showWheels() {
-    for (let i = 0; i < 4; i++) {
-        let newWheel = document.getElementById("wheel" + i);
+    for (var i = 0; i < 4; i++) {
+        var newWheel = document.getElementById("wheel" + i);
         newWheel.innerHTML = "Brand: " + car.wheels[i].brand + "<br>Diameter: " + car.wheels[i].diameter;
     }
 }
