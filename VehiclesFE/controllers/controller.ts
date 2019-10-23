@@ -6,12 +6,10 @@ function createCar(plate:string,color:string,brand:string){
 }
 
 function submitCar() {
-    var carPlate = document.getElementById("plate").value;
-    var carBrand = document.getElementById("brand").value;
-    var carColor = document.getElementById("color").value;
-
-    var platePattern = /\b[0-9]{4}[A-Za-z]{3}\b/;
-    ///\b\d{4}[a-zA-Z]{3}\b/;
+    let carPlate = document.getElementById("plate").value;
+    let carBrand = document.getElementById("brand").value;
+    let carColor = document.getElementById("color").value;
+    let platePattern = /\b[0-9]{4}[A-Za-z]{3}\b/;
 
     if (carPlate == "" || carBrand == "" || carColor == "" ) {
         error(document.getElementById("carError"));
@@ -20,8 +18,8 @@ function submitCar() {
         let plateErrorTxt = document.getElementById("plateError");
         errorField(plateErrorTxt, carPlateField);
     } else {
-        var carInputs = document.getElementById("carInputs");
-        var wheelsInputs = document.getElementById("wheelsInputs");
+        let carInputs = document.getElementById("carInputs");
+        let wheelsInputs = document.getElementById("wheelsInputs");
         displayContent(wheelsInputs, carInputs);
         createCar(carPlate, carColor, carBrand);
     }
@@ -30,7 +28,7 @@ function submitCar() {
 // ADD WHEELS
 function submitWheels(){
     if (validateWheels() == true)  {   
-        for (var i=0; i<4; i++) {
+        for (let i=0; i<4; i++) {
             let brandWheel: any = document.getElementById("brandWheel" + i);
             let diameterWheel: any = document.getElementById("diameterWheel" + i);
             car.addWheel(new Wheel(diameterWheel.value, brandWheel.value));
@@ -47,9 +45,9 @@ function submitWheels(){
 } //end submitWheels()
 
 function validateWheels() {
-    var wheelCounter: number = 0;
+    let wheelCounter: number = 0;
 
-    for (var i=0; i<4; i++) {
+    for (let i=0; i<4; i++) {
         let brandWheel: any = document.getElementById("brandWheel" + i);
         let diameterWheel: any = document.getElementById("diameterWheel" + i);
         let errorTxt: any =  document.getElementById("wheelErrorField" + i);

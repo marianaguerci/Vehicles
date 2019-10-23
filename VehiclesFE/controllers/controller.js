@@ -9,7 +9,6 @@ function submitCar() {
     var carBrand = document.getElementById("brand").value;
     var carColor = document.getElementById("color").value;
     var platePattern = /\b[0-9]{4}[A-Za-z]{3}\b/;
-    ///\b\d{4}[a-zA-Z]{3}\b/;
     if (carPlate == "" || carBrand == "" || carColor == "") {
         error(document.getElementById("carError"));
     }
