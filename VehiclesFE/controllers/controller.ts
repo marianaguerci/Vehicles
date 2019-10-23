@@ -1,4 +1,3 @@
-
 var car: Car;
 
 // CREATE CAR
@@ -13,11 +12,9 @@ function submitCar() {
 
     var platePattern = /\b[0-9]{4}[A-Za-z]{3}\b/;
     ///\b\d{4}[a-zA-Z]{3}\b/;
-    
 
-    if(carPlate == "" || carBrand == "" || carColor == "" ) {
-        let errorTxt: any = document.getElementById("carError");
-        error(errorTxt);
+    if (carPlate == "" || carBrand == "" || carColor == "" ) {
+        error(document.getElementById("carError"));
     } else if(carPlate != "" && !(carPlate.match(platePattern))){
         let carPlateField = document.getElementById("plate");
         let plateErrorTxt = document.getElementById("plateError");
@@ -31,88 +28,47 @@ function submitCar() {
 }
 
 // ADD WHEELS
-function submitWheels() {
-    let brandWheel1: any = document.getElementById("brandWheel1");
-    let brandWheel2: any = document.getElementById("brandWheel2");
-    let brandWheel3: any = document.getElementById("brandWheel3");
-    let brandWheel4: any= document.getElementById("brandWheel4");
-    let diameterWheel1: any = document.getElementById("diameterWheel1");
-    let diameterWheel2: any = document.getElementById("diameterWheel2");
-    let diameterWheel3: any = document.getElementById("diameterWheel3");
-    let diameterWheel4: any = document.getElementById("diameterWheel4");
-
-    let errorTxt1: any = document.getElementById("wheelErrorField1");
-    let errorTxt2: any = document.getElementById("wheelErrorField2");
-    let errorTxt3: any = document.getElementById("wheelErrorField3");
-    let errorTxt4: any = document.getElementById("wheelErrorField4");
-
-    let errorTxt: any = document.getElementById("wheelError");
+function submitWheels(){
+    if (validateWheels() == true)  {   
+        for (var i=0; i<4; i++) {
+            let brandWheel: any = document.getElementById("brandWheel" + i);
+            let diameterWheel: any = document.getElementById("diameterWheel" + i);
+            car.addWheel(new Wheel(diameterWheel.value, brandWheel.value));
+        }
     
-    if(brandWheel1.value == "" || brandWheel2.value == "" || brandWheel3.value == "" || brandWheel4.value == "" || diameterWheel1.value == "" || diameterWheel2.value == "" || diameterWheel3.value == "" || diameterWheel4.value == "") {
-
-        error(errorTxt);
-
-    } 
-    //Añadimos rueda tras comprobar que todos los campos estan con valores.
-    else {
-        let Wheel1 = new Wheel(diameterWheel1.value, brandWheel1.value);
-
-        if (validateDiameter(Wheel1.diameter) == true){
-            car.addWheel(new Wheel(diameterWheel1.value, brandWheel1.value));
-            resetErrorField(errorTxt1, diameterWheel1);
-        } else {
-            errorField(errorTxt1, diameterWheel1);
-            errorTxt1.innerHTML = "Wheel 1: Incorrect diameter.";
-        }
-
-        let Wheel2 = new Wheel(diameterWheel2.value, brandWheel2.value);
-        if (validateDiameter(Wheel2.diameter) == true){
-            car.addWheel(new Wheel(diameterWheel2.value, brandWheel2.value));
-            resetErrorField(errorTxt2, diameterWheel2);
-        } else {
-            errorField(errorTxt2, diameterWheel2);
-            errorTxt2.innerHTML = "Wheel 2: Incorrect diameter.";
-        }
-
-        let Wheel3 = new Wheel(diameterWheel3.value, brandWheel3.value);
-        if (validateDiameter(Wheel3.diameter) == true){
-            car.addWheel(new Wheel(diameterWheel3.value, brandWheel3.value));
-            resetErrorField(errorTxt3, diameterWheel3);
-        } else {
-            errorField(errorTxt3, diameterWheel3);
-            errorTxt3.innerHTML = "Wheel 3: Incorrect diameter.";
-        }
-
-        let Wheel4 = new Wheel(diameterWheel4.value, brandWheel4.value);
-        if (validateDiameter(Wheel4.diameter) == true){
-            car.addWheel(new Wheel(diameterWheel4.value, brandWheel4.value));
-            resetErrorField(errorTxt4, diameterWheel4);
-        } else {
-            errorField(errorTxt4, diameterWheel4);
-            errorTxt4.innerHTML = "Wheel 4: Incorrect diameter.";
-        }
-
-        if ((validateDiameter(Wheel1.diameter) == true) && (validateDiameter(Wheel2.diameter) == true) && (validateDiameter(Wheel3.diameter) == true)  && (validateDiameter(Wheel4.diameter) == true)) {
-            let wheelsInputs: any = document.getElementById("wheelsInputs");
-            let newCarInfo: any = document.getElementById("carInfo");
-            displayContent(newCarInfo, wheelsInputs);
-            showCarInfo(car.plate, car.brand, car.color);
-            showWheels();
-        }  
+        let wheelsInputs: any = document.getElementById("wheelsInputs");
+        let newCarInfo: any = document.getElementById("carInfo");
+        displayContent(newCarInfo, wheelsInputs);
+        showCarInfo(car.plate, car.brand, car.color);
+        showWheels();
     }
-} //submitWheels END
+} //end submitWheels()
 
-//valida el diámetro de la rueda y retorna true si es correcto (isValid)
-function validateDiameter(wheeldiameter: number): boolean {
-    let isValid = true;
+function validateWheels() {
+    var wheelCounter: number = 0;
 
-    if (wheeldiameter > 0.4 && wheeldiameter < 2){
-        isValid;
+    for (var i=0; i<4; i++) {
+        let brandWheel: any = document.getElementById("brandWheel" + i);
+        let diameterWheel: any = document.getElementById("diameterWheel" + i);
+        let errorTxt: any =  document.getElementById("wheelErrorField" + i);
+               
+        if ((brandWheel.value == "") || (diameterWheel.value == "")) {
+            error(document.getElementById("wheelError"));
+        } else if ((diameterWheel.value < 0.4) || (diameterWheel.value > 2)) {
+            errorField(errorTxt, diameterWheel);
+            errorTxt.innerHTML = "Wheel " + (i+1) + " diameter must be between 0.4 and 2.";
+        } else {
+            resetErrorField(errorTxt, diameterWheel);
+            wheelCounter = wheelCounter + 1;
+        }
+    } //end for 
+
+    if (wheelCounter == 4) {
+        return true;
     } else {
-        isValid = false;
-    }   
-    return isValid;
-}
+        return false;
+    }
+} //end validateWheels()
 
 
 // muestra la info del coche una vez creado
@@ -128,17 +84,11 @@ function showCarInfo (plate: string, brand: string, color:string) {
 }
 
 // muestra la info de las ruedas 
-function showWheels() {
-    let newWheel1: any = document.getElementById("wheel1");
-    let newWheel2: any = document.getElementById("wheel2");
-    let newWheel3: any = document.getElementById("wheel3");
-    let newWheel4: any = document.getElementById("wheel4");
-
-    newWheel1.innerHTML = "Brand: " + car.wheels[0].brand + "<br>" + "Diameter: " + car.wheels[0].diameter;
-    newWheel2.innerHTML = "Brand: " + car.wheels[1].brand + "<br>" + "Diameter: " + car.wheels[1].diameter;
-    newWheel3.innerHTML = "Brand: " + car.wheels[2].brand + "<br>" + "Diameter: " + car.wheels[2].diameter;
-    newWheel4.innerHTML = "Brand: " + car.wheels[3].brand + "<br>" + "Diameter: " + car.wheels[3].diameter;
-    
+function showWheels() { 
+    for (var i=0; i<4; i++) {
+        let newWheel: any = document.getElementById("wheel"+ i);
+        newWheel.innerHTML = `Brand: ${car.wheels[i].brand}<br>Diameter: ${car.wheels[i].diameter}`;
+    }
 }
 
 //muestra y esconde los formularios
